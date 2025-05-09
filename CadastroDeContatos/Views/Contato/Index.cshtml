@@ -1,6 +1,6 @@
 ﻿@model List<ContatoModel>
 @{
-	ViewData["Title"] = "Listagem de contatos";
+	ViewData["Title"] = "Listagem de Contatos";
 }
 
 <div class="text-center">
@@ -33,11 +33,11 @@
 	<table class="table" id="table-contatos">
 		<thead>
 			<tr>
-				<th scope="col">#</th>
-				<th scope="col">Nome</th>
-				<th scope="col">Email</th>
-				<th scope="col">Celular</th>
-				<th scope="col">       </th>
+				<th scope="col" class="text-center">#</th>
+				<th scope="col" class="text-center">Nome</th>
+				<th scope="col" class="text-center">Email</th>
+				<th scope="col" class="text-center">Celular</th>
+				<th scope="col" class="text-center">       </th>
 			</tr>
 		</thead>
 		<tbody class="table-group-divider">
@@ -46,11 +46,11 @@
 				foreach (ContatoModel contato in Model)
 				{
 					<tr>
-						<th scope="row">@contato.Id</th>
-						<td>@contato.Name</td>
-						<td>@contato.Email</td>
-						<td>@contato.Celular</td>
-						<td>
+						<th scope="row" class="text-center">@contato.Id</th>
+						<td class="text-center">@contato.Name</td>
+						<td class="text-center">@contato.Email</td>
+						<td class="text-center">@contato.Celular</td>
+						<td class="text-center">
 							<div class="btn-group" role="group">
 								<a role="button" class="btn btn-primary" asp-route-id="@contato.Id" asp-controller="Contato" asp-action="Editar">Editar</a>
 								<a role="button" class="btn btn-danger" asp-route-id="@contato.Id" asp-controller="Contato" asp-action="ApagarConfirmacao">Apagar</a>
@@ -58,6 +58,10 @@
 						</td>
 					</tr>
 				}
+			}
+			else
+			{
+				<tr class="odd"><td valign="top" colspan="5" class="text-center">Nenhum contato encontrado</td></tr>
 			}
 		</tbody>
 	</table>

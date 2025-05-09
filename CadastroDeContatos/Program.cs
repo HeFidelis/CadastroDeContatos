@@ -10,6 +10,7 @@ builder.Services.AddControllersWithViews();
 builder.Services.AddEntityFrameworkSqlServer()
     .AddDbContext<BancoContext>(options => options.UseSqlServer(builder.Configuration.GetConnectionString("DataBase")));
 builder.Services.AddScoped<IContatoRepositories, ContatoRepositories>();
+builder.Services.AddScoped<IUsuarioRepositories, UsuarioRepositories>();
 
 var app = builder.Build();
 

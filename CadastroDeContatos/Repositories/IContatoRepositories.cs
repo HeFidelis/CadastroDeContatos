@@ -8,8 +8,8 @@ namespace CadastroDeContatos.Repositories
 {
     public interface IContatoRepositories
     {
-        ContatoModel BuscarPorId(int id);
         List<ContatoModel> BuscarTodos();
+        ContatoModel BuscarPorId(int id);
         ContatoModel Adicionar(ContatoModel contato);
         ContatoModel Atualizar(ContatoModel contato);
         bool Apagar(int id);
