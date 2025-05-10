@@ -1,5 +1,7 @@
 using CadastroDeContatos.Data;
+using CadastroDeContatos.Helper;
 using CadastroDeContatos.Repositories;
+using Microsoft.AspNetCore.Http;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Migrations.Operations.Builders;
 
@@ -9,9 +11,18 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddControllersWithViews();
 builder.Services.AddEntityFrameworkSqlServer()
     .AddDbContext<BancoContext>(options => options.UseSqlServer(builder.Configuration.GetConnectionString("DataBase")));
+
+builder.Services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
+
 builder.Services.AddScoped<IContatoRepositories, ContatoRepositories>();
 builder.Services.AddScoped<IUsuarioRepositories, UsuarioRepositories>();
+builder.Services.AddScoped<ISessao, Sessao>();
 
+builder.Services.AddSession(o => { 
+    o.Cookie.HttpOnly = true;
+    o.Cookie.IsEssential = true;
+});
+ 
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
@@ -26,6 +37,8 @@ app.UseHttpsRedirection();
 app.UseRouting();
 
 app.UseAuthorization();
+
+app.UseSession();
 
 app.MapStaticAssets();
 

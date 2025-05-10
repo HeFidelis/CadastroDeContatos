@@ -1,4 +1,5 @@
-﻿using CadastroDeContatos.Models;
+﻿using CadastroDeContatos.Helper;
+using CadastroDeContatos.Models;
 using CadastroDeContatos.Repositories;
 using Microsoft.AspNetCore.Mvc;
 using static System.Runtime.InteropServices.JavaScript.JSType;
@@ -8,14 +9,31 @@ namespace CadastroDeContatos.Controllers
     public class LoginController : Controller
     {
         private readonly IUsuarioRepositories _usuarioRepositories;
-        public LoginController(IUsuarioRepositories _usuarioRepositories)
+        private readonly ISessao _sessao;
+        public LoginController(IUsuarioRepositories _usuarioRepositories,
+                               ISessao sessao)
         {
             this._usuarioRepositories = _usuarioRepositories;
+            this._sessao = sessao;
         }
 
         public IActionResult Index()
         {
+            // Se o usuário já estiver logado, redireciona para a home
+
+            if (_sessao.BuscarSessaoDoUsuario() != null)
+            {
+                return RedirectToAction("Index", "Home");
+            }
+
             return View();
+        }
+
+        public IActionResult Sair()
+        {
+            _sessao.RemoverSessaoDoUsuario();
+
+            return RedirectToAction("Index", "Login");
         }
 
         [HttpPost]
@@ -31,6 +49,7 @@ namespace CadastroDeContatos.Controllers
                     {
                         if (usuario.SenhaValida(loginModel.Password))
                         {
+                            _sessao.CriarSessaoDoUsuario(usuario);
                             return RedirectToAction("Index", "Home");
                         }
 
