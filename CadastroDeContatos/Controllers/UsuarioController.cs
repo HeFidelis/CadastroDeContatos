@@ -24,6 +24,42 @@ namespace CadastroDeContatos.Controllers
             return View();
         }
 
+        public IActionResult Editar(int id)
+        {
+            UsuarioModel usuario = _usuarioRepositories.BuscarPorId(id);
+            return View(usuario);
+        }
+
+
+        public IActionResult ApagarConfirmacao(int id)
+        {
+            UsuarioModel usuario = _usuarioRepositories.BuscarPorId(id);
+            return View(usuario);
+        }
+
+        public IActionResult Apagar(int id)
+        {
+            try
+            {
+                bool apagado = _usuarioRepositories.Apagar(id);
+
+                if (apagado)
+                {
+                    TempData["MensagemSucesso"] = "Usuário apagado com sucesso!";
+                }
+                else
+                {
+                    TempData["MensagemErro"] = "Ops, não conseguimos apagar seu usuário";
+                }
+                return RedirectToAction("Index");
+            }
+            catch (Exception erro)
+            {
+                TempData["MensagemErro"] = $"Ops, não conseguimos apagar seu usuário, mais detalhes do erro: {erro.Message}";
+                return RedirectToAction("Index");
+            }
+        }
+
         [HttpPost]
         public IActionResult Criar(UsuarioModel usuario)
         {
@@ -41,6 +77,38 @@ namespace CadastroDeContatos.Controllers
             catch (Exception erro)
             {
                 TempData["MensagemErro"] = $"Ops, não conseguimos adicionar seu usuário, tente novamente, detalhe do erro:{erro.Message}";
+                return RedirectToAction("Index");
+            }
+        }
+
+        [HttpPost]
+        public IActionResult Alterar(UsuarioSemSenhaModel usuarioSemSenhaModel)
+        {
+            try
+            {
+                UsuarioModel usuario = null;
+
+                if (ModelState.IsValid)
+                {
+                    usuario = new UsuarioModel()
+                    {
+                        Id = usuarioSemSenhaModel.Id,
+                        Name = usuarioSemSenhaModel.Name,
+                        Login = usuarioSemSenhaModel.Login,
+                        Email = usuarioSemSenhaModel.Email,
+                        Perfil = usuarioSemSenhaModel.Perfil,
+                    };
+
+                    usuario = _usuarioRepositories.Atualizar(usuario);
+                    TempData["MensagemSucesso"] = "Usuário alterado com sucesso!";
+                    return RedirectToAction("Index");
+                }
+
+                return View("Editar", usuario);
+            }
+            catch (Exception erro)
+            {
+                TempData["MensagemErro"] = $"Ops, não conseguimos atualizar seu usuário, tente novamente, detalhe do erro:{erro.Message}";
                 return RedirectToAction("Index");
             }
         }

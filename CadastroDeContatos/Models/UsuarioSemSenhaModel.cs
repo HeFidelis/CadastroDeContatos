@@ -3,7 +3,7 @@ using CadastroDeContatos.Enums;
 
 namespace CadastroDeContatos.Models
 {
-    public class UsuarioModel
+    public class UsuarioSemSenhaModel
     {
         public int Id { get; set; }
 
@@ -19,16 +19,5 @@ namespace CadastroDeContatos.Models
 
         [Required(ErrorMessage = "Informe o perfil do usuário")]
         public PerfilEnum? Perfil { get; set; }
-
-        [Required(ErrorMessage = "Digite a senha do usuário")]
-        public string Password { get; set; }
-        public DateTime DataCadastro { get; set; }
-        public DateTime? DataAtualizacao { get; set; }
-
-        public bool SenhaValida(string senha)
-        {
-            return Password == senha;
-        }
-
     }
 }

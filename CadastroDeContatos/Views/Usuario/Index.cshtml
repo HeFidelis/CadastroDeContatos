@@ -5,7 +5,7 @@
 
 <div class="text-center">
 
-	<div class="d-grid gap-2 d-md-flex justfy-content-md-start">
+	<div class="d-grid gap-2 d-md-flex justify-content-md-start">
 		<a class="btn btn-primary" role="button" asp-controller="Usuario" asp-action="Criar">Adicionar Novo Usuário</a>
 	</div>
 	<br />
@@ -37,9 +37,10 @@
 				<th scope="col" class="text-center">Nome</th>
 				<th scope="col" class="text-center">Login</th>
 				<th scope="col" class="text-center">Email</th>
+				<th scope="col" class="text-center">Perfil</th>
 				<th scope="col" class="text-center">Data de cadastro</th>
-				<th scope="col" class=" text-center"">       </th>
-			</tr>
+				<th scope="col" class="text-center">       </th>
+			</tr>	
 		</thead>
 		<tbody class="table-group-divider">
 			@if (Model != null && Model.Any())
@@ -51,19 +52,20 @@
 						<td class="text-center">@usuario.Name</td>
 						<td class="text-center">@usuario.Login</td>
 						<td class="text-center">@usuario.Email</td>
+						<td class="text-center">@(usuario.Perfil == CadastroDeContatos.Enums.PerfilEnum.Admin ? "Administrador" : "Padrão")</td>
 						<td class="text-center">@usuario.DataCadastro</td>
 						<td class="text-center">
 							<div class="btn-group" role="group">
 								<a role="button" class="btn btn-primary" asp-route-id="@usuario.Id" asp-controller="Usuario" asp-action="Editar">Editar</a>
 								<a role="button" class="btn btn-danger" asp-route-id="@usuario.Id" asp-controller="Usuario" asp-action="ApagarConfirmacao">Apagar</a>
 							</div>
-						</td>
+						</td>	
 					</tr>
 				}
 			}
 			else
 			{
-				<tr class="odd"><td valign="top" colspan="6" class="text-center">Nenhum usuário encontrado</td></tr>
+				<tr class="odd"><td valign="top" colspan="5" class="text-center">Nenhum usuário encontrado</td></tr>
 			}
 		</tbody>
 	</table>
