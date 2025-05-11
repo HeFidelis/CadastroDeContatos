@@ -1,5 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using CadastroDeContatos.Enums;
+using CadastroDeContatos.Helper;
 
 namespace CadastroDeContatos.Models
 {
@@ -27,7 +28,12 @@ namespace CadastroDeContatos.Models
 
         public bool SenhaValida(string senha)
         {
-            return Password == senha;
+            return Password == senha.GerarHash();
+        }
+
+        public void SetSenhaHash()
+        {
+            Password = Password.GerarHash();
         }
 
     }
