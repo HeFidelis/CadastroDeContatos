@@ -1,5 +1,6 @@
 using CadastroDeContatos.Data;
 using CadastroDeContatos.Helper;
+using CadastroDeContatos.Models;
 using CadastroDeContatos.Repositories;
 using Microsoft.AspNetCore.Http;
 using Microsoft.EntityFrameworkCore;
@@ -17,6 +18,7 @@ builder.Services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
 builder.Services.AddScoped<IContatoRepositories, ContatoRepositories>();
 builder.Services.AddScoped<IUsuarioRepositories, UsuarioRepositories>();
 builder.Services.AddScoped<ISessao, Sessao>();
+builder.Services.AddScoped<IEmail, Email>();
 
 builder.Services.AddSession(o => { 
     o.Cookie.HttpOnly = true;
