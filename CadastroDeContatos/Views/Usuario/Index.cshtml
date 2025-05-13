@@ -38,6 +38,7 @@
 				<th scope="col" class="text-center">Login</th>
 				<th scope="col" class="text-center">Email</th>
 				<th scope="col" class="text-center">Perfil</th>
+				<th scope="col" class="text-center">Total de contatos</th>
 				<th scope="col" class="text-center">Data de cadastro</th>
 				<th scope="col" class="text-center">       </th>
 			</tr>	
@@ -53,6 +54,11 @@
 						<td class="text-center">@usuario.Login</td>
 						<td class="text-center">@usuario.Email</td>
 						<td class="text-center">@(usuario.Perfil == CadastroDeContatos.Enums.PerfilEnum.Admin ? "Administrador" : "Padrão")</td>
+						<td class="text-center">
+							<a href="javascript:" usuario-id="@usuario.Id" class="btn btn-success btn-sm btn-total-contatos">
+								@(usuario.Contatos != null && usuario.Contatos.Any() ? usuario.Contatos.Count() : 0)
+							</a>
+						</td>
 						<td class="text-center">@usuario.DataCadastro</td>
 						<td class="text-center">
 							<div class="btn-group" role="group">
@@ -69,5 +75,22 @@
 			}
 		</tbody>
 	</table>
+
+
+	<div id="modalContatosUsuario" class="modal" tabindex="-1">
+		<div class="modal-dialog modal-lg">
+			<div class="modal-content">
+				<div class="modal-header position-relative">
+					<h5 class="modal-title">Listagem de contatos</h5>
+					<button type="button" class="btn btn-danger btn-sm rounded-circle close-modal position-absolute end-0 me-3" data-bs-dismiss="modal" aria-label="Close">
+						✖
+					</button>
+				</div>
+				<div class="modal-body">
+					<div id="listaContatosUsuario"></div>
+				</div>
+			</div>
+		</div>
+	</div>
 
 </div>

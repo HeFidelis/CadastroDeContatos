@@ -9,9 +9,13 @@ namespace CadastroDeContatos.Controllers
     public class UsuarioController : Controller
     {
         private readonly IUsuarioRepositories _usuarioRepositories;
-        public UsuarioController(IUsuarioRepositories usuarioRepositories)
+        private readonly IContatoRepositories _contatoRepositories;
+
+        public UsuarioController(IUsuarioRepositories usuarioRepositories,
+                                 IContatoRepositories contatoRepositories)
         {
             _usuarioRepositories = usuarioRepositories;
+            _contatoRepositories = contatoRepositories;
         }
 
         public IActionResult Index()
@@ -60,6 +64,12 @@ namespace CadastroDeContatos.Controllers
                 TempData["MensagemErro"] = $"Ops, não conseguimos apagar seu usuário, mais detalhes do erro: {erro.Message}";
                 return RedirectToAction("Index");
             }
+        }
+
+        public IActionResult ListarContatosPorUsuarioId(int id)
+        {
+            List<ContatoModel> contatos = _contatoRepositories.BuscarTodos(id);
+            return PartialView("_ContatosUsuario", contatos);
         }
 
         [HttpPost]
