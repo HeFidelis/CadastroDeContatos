@@ -14,7 +14,7 @@
 <form asp-controller="Usuario" asp-action="Criar" method="post">
 
 	<div class="form-group">
-		<label for="nome">Nome</label>
+		<label for="Name">Nome</label>
 		<input type="text" asp-for="Name" class="form-control mb-1" placeholder="Digite o nome do usuário">
 		<div class="mb-3">
 			@Html.ValidationMessageFor(x => x.Name)
@@ -22,7 +22,7 @@
 	</div>
 
 	<div class="form-group">
-		<label for="email">Email</label>
+		<label for="Email">Email</label>
 		<input type="text" asp-for="Email" class="form-control mb-1" placeholder="Digite o email do usuário">
 		<div class="mb-3">
 			@Html.ValidationMessageFor(x => x.Email)
@@ -30,7 +30,7 @@
 	</div>
 
 	<div class="form-group">
-		<label for="nome" class="form-label">Login</label>
+		<label for="Login" class="form-label">Login</label>
 		<input type="text" asp-for="Login" class="form-control mb-1" placeholder="Digite o login do usuário">
 		<div class="mb-3">
 			@Html.ValidationMessageFor(x => x.Login)
@@ -38,7 +38,7 @@
 	</div>
 
 	<div class="form-group mb-3">
-		<label for="nome" class="form-label">Perfil</label>
+		<label for="Perfil" class="form-label">Perfil</label>
 		<select asp-for="Perfil" class="form-control">
 			<option value="">Selecione</option>
 			<option value="@PerfilEnum.Admin">Administrador</option>
@@ -50,7 +50,7 @@
 	</div>
 
 	<div class="form-group">
-		<label for="nome" class="form-label">Senha</label>
+		<label for="Password" class="form-label">Senha</label>
 		<input type="password" asp-for="Password" class="form-control mb-1" placeholder="Digite a senha do usuário">
 		<div class="mb-3">
 			@Html.ValidationMessageFor(x => x.Password)

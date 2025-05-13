@@ -1,4 +1,5 @@
 ﻿using CadastroDeContatos.Filters;
+using CadastroDeContatos.Helper;
 using CadastroDeContatos.Models;
 using CadastroDeContatos.Repositories;
 using Microsoft.AspNetCore.Mvc;
@@ -9,14 +10,18 @@ namespace CadastroDeContatos.Controllers
     public class ContatoController : Controller
     {
         private readonly IContatoRepositories _contatoRepositories;
-        public ContatoController(IContatoRepositories contatoRepositories)
+        private readonly ISessao _sessao;
+        public ContatoController(IContatoRepositories contatoRepositories,
+                                 ISessao sessao)
         {
             _contatoRepositories = contatoRepositories;
+            _sessao = sessao;
         }
 
         public IActionResult Index()
         {
-            List<ContatoModel> contatos = _contatoRepositories.BuscarTodos();
+            UsuarioModel usuarioLogado = _sessao.BuscarSessaoDoUsuario();
+            List<ContatoModel> contatos = _contatoRepositories.BuscarTodos(usuarioLogado.Id);
 
             return View(contatos);
         }
@@ -68,7 +73,10 @@ namespace CadastroDeContatos.Controllers
             {
                 if (ModelState.IsValid)
                 {
-                    _contatoRepositories.Adicionar(contato);
+                    UsuarioModel usuarioLogado = _sessao.BuscarSessaoDoUsuario();
+                    contato.UsuarioId = usuarioLogado.Id;
+
+                    contato = _contatoRepositories.Adicionar(contato);
                     TempData["MensagemSucesso"] = "Contato adicionado com sucesso!";
                     return RedirectToAction("Index");
                 }
@@ -79,7 +87,7 @@ namespace CadastroDeContatos.Controllers
             {
                 TempData["MensagemErro"] = $"Ops, não conseguimos adicionar seu contato, tente novamente, detalhe do erro:{erro.Message}";
                 return RedirectToAction("Index");
-            }
+            }   
         }
 
         [HttpPost]
@@ -89,7 +97,10 @@ namespace CadastroDeContatos.Controllers
             {
                 if (ModelState.IsValid)
                 {
-                    _contatoRepositories.Atualizar(contato);
+                    UsuarioModel usuarioLogado = _sessao.BuscarSessaoDoUsuario();
+                    contato.UsuarioId = usuarioLogado.Id;
+
+                    contato = _contatoRepositories.Atualizar(contato);
                     TempData["MensagemSucesso"] = "Contato alterado com sucesso!";
                     return RedirectToAction("Index");
                 }
